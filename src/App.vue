@@ -19,7 +19,17 @@ export default class App extends Vue {}
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --primary: #1e213a;
+  --secondary: #e7e7eb;
+  --dark: #100e1d;
+  --gray: #a09fb1;
 }
 </style>

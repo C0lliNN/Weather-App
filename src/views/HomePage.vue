@@ -1,18 +1,34 @@
 <template>
   <main>
-    <div>Weather</div>
-    <div>Content</div>
+    <current-weather-bar></current-weather-bar>
+    <div>Addvanced Weather Info</div>
   </main>
 </template>
 
 <script lang="ts">
+import CurrentWeatherBar from '@/components/CurrentWeatherBar.vue';
 import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 @Options({
-  components: {
-    HelloWorld,
-  },
+  components: { CurrentWeatherBar },
 })
 export default class HomePage extends Vue {}
 </script>
+
+<style scoped>
+main {
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  overflow: auto;
+}
+
+@media (min-width: 768px) {
+  main {
+    grid-template-columns: 31% 69%;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+</style>
