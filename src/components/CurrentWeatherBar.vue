@@ -2,7 +2,7 @@
   <aside>
     <div class="container">
       <div class="header">
-        <button class="btn search">Search Places</button>
+        <button class="btn search">{{ searchText }}</button>
         <button class="btn icon">
           <img
             src="../assets/icons/gps_fixed-24px.svg"
@@ -36,9 +36,22 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { IntlShape } from '@formatjs/intl';
+import { Options, Vue } from 'vue-class-component';
 
-export default class extends Vue {}
+@Options({
+  inject: ['intl'],
+})
+export default class extends Vue {
+  intl!: IntlShape<string>;
+
+  get searchText(): string {
+    return this.intl.formatMessage({
+      id: 'Search Places',
+      defaultMessage: 'Search Places',
+    });
+  }
+}
 </script>
 
 <style scoped>
@@ -183,7 +196,7 @@ aside {
   .temperature h3 {
     font-size: 120px;
   }
-  
+
   .weather-symbol img {
     width: 212px;
   }

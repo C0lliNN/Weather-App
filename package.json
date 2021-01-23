@@ -9,9 +9,12 @@
     "format": "prettier . --write"
   },
   "dependencies": {
+    "@formatjs/intl": "^1.6.1",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
+    "vue-intl": "^4.1.3",
+    "vue-property-decorator": "^9.1.2",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
