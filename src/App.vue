@@ -31,5 +31,6 @@ export default class App extends Vue {}
   --secondary: #e7e7eb;
   --dark: #100e1d;
   --gray: #a09fb1;
+  --leftbar-side: 31%;
 }
 </style>

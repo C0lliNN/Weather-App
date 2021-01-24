@@ -2,7 +2,9 @@
   <aside>
     <div class="container">
       <div class="header">
-        <button class="btn search">{{ searchText }}</button>
+        <button class="btn search" @click="handleSearch">
+          {{ searchText }}
+        </button>
         <button class="btn icon">
           <img
             src="../assets/icons/gps_fixed-24px.svg"
@@ -41,6 +43,7 @@ import { Options, Vue } from 'vue-class-component';
 
 @Options({
   inject: ['intl'],
+  emits: ['on-search'],
 })
 export default class extends Vue {
   intl!: IntlShape<string>;
@@ -50,6 +53,10 @@ export default class extends Vue {
       id: 'Search Places',
       defaultMessage: 'Search Places',
     });
+  }
+
+  handleSearch(e: Event) {
+    this.$emit('on-search', e);
   }
 }
 </script>
@@ -90,6 +97,11 @@ aside {
   outline: none;
   cursor: pointer;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #606269;
 }
 
 .search {
