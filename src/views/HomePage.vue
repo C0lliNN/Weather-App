@@ -3,18 +3,22 @@
     <current-weather-bar
       @onSearch.stop="handleShowSearchBar"
     ></current-weather-bar>
-    <search-weather-bar :show="showSearchBar" @onClose.stop="handleCloseSearchBar"></search-weather-bar>
-    <div>Addvanced Weather Info</div>
+    <search-weather-bar
+      :show="showSearchBar"
+      @onClose.stop="handleCloseSearchBar"
+    ></search-weather-bar>
+    <advanced-weather-details></advanced-weather-details>
   </main>
 </template>
 
 <script lang="ts">
 import CurrentWeatherBar from '@/components/CurrentWeatherBar.vue';
 import SearchWeatherBar from '@/components/SearchWeatherBar.vue';
+import AdvancedWeatherDetails from '@/components/AdvancedWeatherDetails.vue';
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  components: { CurrentWeatherBar, SearchWeatherBar },
+  components: { CurrentWeatherBar, SearchWeatherBar, AdvancedWeatherDetails },
 })
 export default class HomePage extends Vue {
   showSearchBar = false;
@@ -41,7 +45,7 @@ main {
 @media (min-width: 768px) {
   main {
     grid-template-columns: var(--leftbar-side) 69%;
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
   }
 }
