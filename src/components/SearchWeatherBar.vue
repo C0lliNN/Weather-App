@@ -25,7 +25,7 @@
               @blur="handleInputBlur"
             />
           </div>
-          <button>Search</button>
+          <button>{{ searchText }}</button>
         </div>
         <ul class="locations">
           <li role="button">
@@ -212,6 +212,10 @@ export default class extends Vue {
   border: 1px solid #3640d1;
 }
 
+.search-container button:focus {
+  box-shadow: 0px 0px 1px 3px #3c48e954;
+}
+
 .search-container input::placeholder {
   color: #616475;
 }
@@ -245,7 +249,6 @@ export default class extends Vue {
 .locations li:hover img {
   display: block;
 }
-
 
 @keyframes slide-in {
   from {

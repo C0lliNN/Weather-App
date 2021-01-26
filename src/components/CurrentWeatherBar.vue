@@ -97,11 +97,15 @@ aside {
   outline: none;
   cursor: pointer;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  transition: background-color 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .btn:hover {
   background-color: #606269;
+}
+
+.btn:focus {
+  box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.2);
 }
 
 .search {
