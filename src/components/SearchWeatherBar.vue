@@ -3,7 +3,7 @@
     enter-active-class="bar-enter-active"
     leave-active-class="bar-leave-active"
   >
-    <div v-show="show" class="search-bar">
+    <div v-show="show" class="search-container">
       <div class="container">
         <div class="close-bar">
           <button @click="handleClose">
@@ -13,7 +13,7 @@
             />
           </button>
         </div>
-        <div class="search-container">
+        <div class="search-bar">
           <div :class="{ focused: isInputFocused }">
             <span>
               <img src="../assets/icons/search-black-18dp.svg" alt="" />
@@ -107,7 +107,7 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-.search-bar {
+.search-container {
   background-color: var(--primary);
   position: absolute;
   z-index: 10;
@@ -155,12 +155,12 @@ export default class extends Vue {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.search-container {
+.search-bar {
   width: 100%;
   display: flex;
 }
 
-.search-container div {
+.search-bar div {
   width: 75%;
   display: flex;
   align-items: center;
@@ -170,11 +170,11 @@ export default class extends Vue {
   transition: all 0.3s ease-in-out;
 }
 
-.search-container div.focused {
+.search-bar div.focused {
   box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.2);
 }
 
-.search-container span {
+.search-bar span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,7 +182,7 @@ export default class extends Vue {
   min-width: 35px;
 }
 
-.search-container input {
+.search-bar input {
   box-sizing: border-box;
   background-color: transparent;
   border: none;
@@ -193,7 +193,7 @@ export default class extends Vue {
   flex-shrink: 1;
 }
 
-.search-container button {
+.search-bar button {
   border: none;
   outline: none;
   font-size: 1em;
@@ -207,16 +207,16 @@ export default class extends Vue {
   transition: all 0.3s ease-in-out;
 }
 
-.search-container button:hover {
+.search-bar button:hover {
   background: #3640d1;
   border: 1px solid #3640d1;
 }
 
-.search-container button:focus {
+.search-bar button:focus {
   box-shadow: 0px 0px 1px 3px #3c48e954;
 }
 
-.search-container input::placeholder {
+.search-bar input::placeholder {
   color: #616475;
 }
 
@@ -269,7 +269,7 @@ export default class extends Vue {
 }
 
 @media (min-width: 768px) {
-  .search-bar {
+  .search-container {
     width: var(--leftbar-side);
   }
   .close-bar {
