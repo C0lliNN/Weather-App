@@ -12,16 +12,23 @@
 </template>
 
 <script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import { mapActions, mapGetters } from 'vuex';
 import CurrentWeatherBar from '@/components/CurrentWeatherBar.vue';
 import SearchWeatherBar from '@/components/SearchWeatherBar.vue';
 import AdvancedWeatherDetails from '@/components/AdvancedWeatherDetails.vue';
-import { Options, Vue } from 'vue-class-component';
 
 @Options({
   components: { CurrentWeatherBar, SearchWeatherBar, AdvancedWeatherDetails },
+  methods: { ...mapActions(['getWeatherInformation']) },
+  computed: { ...mapGetters(['getCurrentLocationId']) },
 })
 export default class HomePage extends Vue {
   showSearchBar = false;
+
+  getWeatherInformation!: (locationId: number) => void;
+
+  getCurrentLocationId!: number;
 
   handleShowSearchBar() {
     this.showSearchBar = true;
@@ -29,6 +36,10 @@ export default class HomePage extends Vue {
 
   handleCloseSearchBar() {
     this.showSearchBar = false;
+  }
+
+  mounted() {
+    this.getWeatherInformation(this.getCurrentLocationId);
   }
 }
 </script>
