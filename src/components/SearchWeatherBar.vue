@@ -243,6 +243,7 @@ export default class extends Vue {
 @media (min-width: 768px) {
   .search-container {
     width: var(--leftbar-side);
+    position: fixed;
   }
   .close-bar {
     text-align: right;
