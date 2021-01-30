@@ -11,7 +11,7 @@
         </button>
       </div>
       <div class="weather-symbol">
-        <img src="../assets/images/Shower.png" alt="" />
+        <img :src="weatherImage" alt="" />
       </div>
       <div class="temperature">
         <h3>
@@ -41,6 +41,7 @@ import { Weather } from '@/store/weather/types';
 import { Options, mixins } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 import CalculateTemperature from '../mixins/CalculateTemperature';
+import GetWeatherImage from '../mixins/GetWeatherImage';
 
 @Options({
   emits: ['on-search'],
@@ -48,7 +49,7 @@ import CalculateTemperature from '../mixins/CalculateTemperature';
     ...mapGetters(['currentWeather', 'unit']),
   },
 })
-export default class extends mixins(CalculateTemperature) {
+export default class extends mixins(CalculateTemperature, GetWeatherImage) {
   unit!: Unit;
 
   currentWeather!: Weather;
@@ -69,6 +70,10 @@ export default class extends mixins(CalculateTemperature) {
     return Math.round(
       this.calculateTemperature(this.currentWeather.currentTemperature),
     );
+  }
+
+  get weatherImage(): string {
+    return this.getWeatherImage(this.currentWeather.weatherStateName);
   }
 
   get formattedUnit(): string {
