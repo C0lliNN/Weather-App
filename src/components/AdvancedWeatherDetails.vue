@@ -2,8 +2,12 @@
   <section>
     <div class="container">
       <div class="temperature-unit">
-        <button class="active">°C</button>
-        <button>°F</button>
+        <button @click="changeUnit('C')" :class="{ active: unit === 'C' }">
+          °C
+        </button>
+        <button @click="changeUnit('F')" :class="{ active: unit === 'F' }">
+          °F
+        </button>
       </div>
       <div class="weather-forecast">
         <div :key="weather.key" v-for="weather in forecasts" class="weather">
@@ -80,9 +84,23 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Unit } from '@/store/unit/types';
+import { Vue, Options } from 'vue-class-component';
+import { mapActions, mapGetters } from 'vuex';
 
+@Options({
+  methods: {
+    ...mapActions(['changeUnit']),
+  },
+  computed: {
+    ...mapGetters(['unit']),
+  },
+})
 export default class App extends Vue {
+  changeUnit!: (unit: Unit) => void;
+
+  unit!: Unit;
+
   forecasts = [
     {
       id: '1',
@@ -115,6 +133,10 @@ export default class App extends Vue {
       max: 36,
     },
   ];
+
+  mounted() {
+    console.log(this.unit);
+  }
 }
 </script>
 

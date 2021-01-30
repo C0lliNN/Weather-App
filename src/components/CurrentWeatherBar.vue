@@ -16,7 +16,7 @@
       <div class="temperature">
         <h3>
           <span>{{ currentTemperature }}</span>
-          <span class="unit">°C</span>
+          <span class="unit">°{{ unit }}</span>
         </h3>
       </div>
       <h4 class="type">{{ weatherStateName }}</h4>
