@@ -7,10 +7,7 @@
       <div class="container">
         <div class="close-bar">
           <button @click="handleClose">
-            <img
-              src="../assets/icons/close-white-18dp.svg"
-              :alt="closeAltText"
-            />
+            <img src="../assets/icons/close-white-18dp.svg" alt="Close" />
           </button>
         </div>
         <div class="search-bar">
@@ -20,12 +17,12 @@
             </span>
             <input
               type="text"
-              :placeholder="inputPlaceholderText"
+              placeholder="Enter a Location"
               @focus="handleInputFocus"
               @blur="handleInputBlur"
             />
           </div>
-          <button>{{ searchText }}</button>
+          <button>Search</button>
         </div>
         <ul class="locations">
           <li role="button">
@@ -56,41 +53,16 @@
 </template>
 
 <script lang="ts">
-import { IntlShape } from '@formatjs/intl';
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
   props: ['show'],
   emits: ['on-close'],
-  inject: ['intl'],
 })
 export default class extends Vue {
-  intl!: IntlShape<string>;
-
   show!: boolean;
 
   isInputFocused = false;
-
-  get closeAltText(): string {
-    return this.intl.formatMessage({
-      id: 'Close',
-      defaultMessage: 'Close',
-    });
-  }
-
-  get inputPlaceholderText(): string {
-    return this.intl.formatMessage({
-      id: 'Enter a Location',
-      defaultMessage: 'Enter a Location',
-    });
-  }
-
-  get searchText(): string {
-    return this.intl.formatMessage({
-      id: 'Search',
-      defaultMessage: 'Search',
-    });
-  }
 
   handleClose(e: Event) {
     this.$emit('on-close', e);
