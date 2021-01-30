@@ -5,7 +5,7 @@ const getters: GetterTree<State, {}> = {
   getCurrentLocationId(store: State): number {
     return store.data.weather.locationId;
   },
-  getCurrentWeather(store: State): Weather {
+  currentWeather(store: State): Weather {
     return store.data.weather;
   },
   getForecasts(store: State): Forecast[] {

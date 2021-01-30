@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Module } from 'vuex';
-
-type Unit = 'C' | 'T';
+import { Unit } from './types';
 
 interface State {
   currentUnit: Unit;
@@ -22,7 +21,7 @@ const unitModule: Module<State, {}> = {
     },
   },
   getters: {
-    getCurrentUnit(store): Unit {
+    unit(store): Unit {
       return store.currentUnit;
     },
   },

@@ -2,9 +2,7 @@
   <aside>
     <div class="container">
       <div class="header">
-        <button class="btn search" @click="handleSearch">
-          {{ searchText }}
-        </button>
+        <button class="btn search" @click="handleSearch">Search Places</button>
         <button class="btn icon">
           <img
             src="../assets/icons/gps_fixed-24px.svg"
@@ -17,20 +15,20 @@
       </div>
       <div class="temperature">
         <h3>
-          <span>15</span>
+          <span>{{ currentTemperature }}</span>
           <span class="unit">°C</span>
         </h3>
       </div>
-      <h4 class="type">Shower</h4>
+      <h4 class="type">{{ weatherStateName }}</h4>
       <div class="footer">
         <div class="date">
           <span>Today</span>
           <span class="separator">-</span>
-          <span>Fri, 5 Jun</span>
+          <span>{{ formattedDate }}</span>
         </div>
         <div class="location">
           <img src="../assets/icons/location_on-white-24dp.svg" alt="" />
-          <span>Helsink</span>
+          <span>{{ currentWeather.locationName }}</span>
         </div>
       </div>
     </div>
@@ -38,25 +36,51 @@
 </template>
 
 <script lang="ts">
-import { IntlShape } from '@formatjs/intl';
+import { Unit } from '@/store/unit/types';
+import { Weather } from '@/store/weather/types';
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+import calculateTemperature from '../helpers/calculateTemperature';
 
 @Options({
-  inject: ['intl'],
   emits: ['on-search'],
+  computed: {
+    ...mapGetters(['currentWeather', 'unit']),
+  },
 })
 export default class extends Vue {
-  intl!: IntlShape<string>;
+  unit!: Unit;
 
-  get searchText(): string {
-    return this.intl.formatMessage({
-      id: 'Search Places',
-      defaultMessage: 'Search Places',
-    });
+  currentWeather!: Weather;
+
+  get formattedDate(): string {
+    return new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'short',
+      weekday: 'short'
+    }).format(this.currentWeather.currentDate);
+  }
+
+  get weatherStateName(): string {
+    return this.currentWeather.weatherStateName;
+  }
+
+  get currentTemperature(): number {
+    return Math.round(
+      calculateTemperature(this.currentWeather.currentTemperature, this.unit),
+    );
+  }
+
+  get formattedUnit(): string {
+    return `°${this.unit}`;
   }
 
   handleSearch(e: Event) {
     this.$emit('on-search', e);
+  }
+
+  mounted() {
+    console.log(this.currentWeather);
   }
 }
 </script>

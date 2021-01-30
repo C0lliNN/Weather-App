@@ -7,7 +7,7 @@ export default function getTransformedData(data: any): Data {
   const currentWeather: Weather = {
     locationId: data.woeid,
     locationName: data.title,
-    currentDate: data.title,
+    currentDate: data.created,
     currentTemperature: rawWeatherData.the_temp,
     airPressure: rawWeatherData.air_pressure,
     humidity: rawWeatherData.humidity,
