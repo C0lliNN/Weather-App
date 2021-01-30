@@ -38,9 +38,9 @@
 <script lang="ts">
 import { Unit } from '@/store/unit/types';
 import { Weather } from '@/store/weather/types';
-import { Options, Vue } from 'vue-class-component';
+import { Options, mixins } from 'vue-class-component';
 import { mapGetters } from 'vuex';
-import calculateTemperature from '../helpers/calculateTemperature';
+import CalculateTemperature from '../mixins/CalculateTemperature';
 
 @Options({
   emits: ['on-search'],
@@ -48,7 +48,7 @@ import calculateTemperature from '../helpers/calculateTemperature';
     ...mapGetters(['currentWeather', 'unit']),
   },
 })
-export default class extends Vue {
+export default class extends mixins(CalculateTemperature) {
   unit!: Unit;
 
   currentWeather!: Weather;
@@ -57,7 +57,7 @@ export default class extends Vue {
     return new Intl.DateTimeFormat('en-US', {
       day: 'numeric',
       month: 'short',
-      weekday: 'short'
+      weekday: 'short',
     }).format(this.currentWeather.currentDate);
   }
 
@@ -67,7 +67,7 @@ export default class extends Vue {
 
   get currentTemperature(): number {
     return Math.round(
-      calculateTemperature(this.currentWeather.currentTemperature, this.unit),
+      this.calculateTemperature(this.currentWeather.currentTemperature),
     );
   }
 
@@ -77,10 +77,6 @@ export default class extends Vue {
 
   handleSearch(e: Event) {
     this.$emit('on-search', e);
-  }
-
-  mounted() {
-    console.log(this.currentWeather);
   }
 }
 </script>

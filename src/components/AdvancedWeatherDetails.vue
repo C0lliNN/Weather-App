@@ -133,10 +133,6 @@ export default class App extends Vue {
       max: 36,
     },
   ];
-
-  mounted() {
-    console.log(this.unit);
-  }
 }
 </script>
 
@@ -188,6 +184,10 @@ section {
 
 .temperature-unit button:focus {
   box-shadow: 0px 0px 1px 3px #58567681;
+}
+
+.temperature-unit button.active:focus {
+  box-shadow: 0px 0px 1px 3px #e7e7eb7a;
 }
 
 .temperature-unit button.active {
