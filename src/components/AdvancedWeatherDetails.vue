@@ -13,12 +13,20 @@
         </button>
       </div>
       <div class="weather-forecast">
-        <div :key="weather.key" v-for="weather in forecasts" class="weather">
-          <h5>{{ weather.dateString }}</h5>
-          <img src="../assets/images/LightCloud.png" alt="" />
+        <div
+          :key="forecast.date"
+          v-for="forecast in transformedForecasts"
+          class="weather"
+        >
+          <h5>{{ forecast.date }}</h5>
+          <img :src="forecast.weatherStateImage" alt="" />
           <div class="temperatures">
-            <span class="max">{{ weather.max }} °C</span>
-            <span class="min">{{ weather.min }} °C</span>
+            <span class="max"
+              >{{ forecast.maxTemperature }} {{ formattedUnit }}</span
+            >
+            <span class="min"
+              >{{ forecast.minTemperature }} {{ formattedUnit }}</span
+            >
           </div>
         </div>
       </div>
@@ -28,7 +36,7 @@
           <div>
             <h5>Wind Status</h5>
             <p>
-              <span>7</span>
+              <span>{{ windSpeed }}</span>
               <span class="unit">mph</span>
             </p>
             <div class="wind">
@@ -39,13 +47,13 @@
                   width="18"
                 />
               </button>
-              <span>WSW</span>
+              <span>{{ windDirection }}</span>
             </div>
           </div>
           <div>
             <h5>Humidity</h5>
             <p>
-              <span>84</span>
+              <span>{{ humidity }}</span>
               <span class="unit">%</span>
             </p>
             <div class="progress">
@@ -55,7 +63,7 @@
                 <span>100</span>
               </div>
               <div class="bar">
-                <div style="width: 30%"></div>
+                <div :style="{ width: `${humidity}%` }"></div>
               </div>
               <div class="unit">
                 <span>%</span>
@@ -66,14 +74,14 @@
           <div>
             <h5>Visibility</h5>
             <p>
-              <span>6,4</span>
+              <span>{{ visibility }}</span>
               <span class="unit">Miles</span>
             </p>
           </div>
           <div>
             <h5>Air Pressure</h5>
             <p>
-              <span>998</span>
+              <span>{{ airPressure }}</span>
               <span class="unit">mb</span>
             </p>
           </div>
@@ -87,61 +95,93 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable class-methods-use-this */
+import CalculateTemperature from '@/mixins/CalculateTemperature';
+import GetWeatherImage from '@/mixins/GetWeatherImage';
 import { Unit } from '@/store/unit/types';
-import { Vue, Options } from 'vue-class-component';
+import { CompassPoint, Forecast, Weather } from '@/store/weather/types';
+import { Options, mixins } from 'vue-class-component';
 import { mapActions, mapGetters } from 'vuex';
 import BaseSpinner from './UI/BaseSpinner.vue';
+
+interface TransformedForecasts {
+  date: string;
+  minTemperature: number;
+  maxTemperature: number;
+  weatherStateImage: string;
+}
 
 @Options({
   methods: {
     ...mapActions(['changeUnit']),
   },
   computed: {
-    ...mapGetters(['unit', 'isLoading']),
+    ...mapGetters(['unit', 'isLoading', 'forecasts', 'currentWeather']),
   },
   components: {
     BaseSpinner,
   },
 })
-export default class App extends Vue {
+export default class App extends mixins(CalculateTemperature, GetWeatherImage) {
   changeUnit!: (unit: Unit) => void;
 
   unit!: Unit;
 
   isLoading!: boolean;
 
-  forecasts = [
-    {
-      id: '1',
-      dateString: 'Tomorrow',
-      min: 16,
-      max: 19,
-    },
-    {
-      id: '2',
-      dateString: 'Sun, 7 Jun',
-      min: 22,
-      max: 25,
-    },
-    {
-      id: '3',
-      dateString: 'Mon, 8 Jun',
-      min: 27,
-      max: 32,
-    },
-    {
-      id: '4',
-      dateString: 'Tue, 9 Jun',
-      min: 28,
-      max: 30,
-    },
-    {
-      id: '5',
-      dateString: 'Wed, 10 Jun',
-      min: 32,
-      max: 36,
-    },
-  ];
+  forecasts!: Forecast[];
+
+  currentWeather!: Weather;
+
+  get transformedForecasts(): TransformedForecasts[] {
+    console.log(this.forecasts);
+    return this.forecasts.map((forecast) => ({
+      date: this.formatDate(forecast.date),
+      minTemperature: this.round(
+        this.calculateTemperature(forecast.minTemperature),
+      ),
+      maxTemperature: this.round(
+        this.calculateTemperature(forecast.maxTemperature),
+      ),
+      weatherStateImage: this.getWeatherImage(forecast.weatherStateName),
+    }));
+  }
+
+  formatDate(date: Date): string {
+    return new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'short',
+      weekday: 'short',
+    }).format(date);
+  }
+
+  round(value: number) {
+    return Math.round(value);
+  }
+
+  get formattedUnit(): string {
+    return `°${this.unit}`;
+  }
+
+  get windSpeed(): number {
+    return this.round(this.currentWeather.windSpeed);
+  }
+
+  get windDirection(): CompassPoint {
+    return this.currentWeather.windDirectionCompass;
+  }
+
+  get humidity(): number {
+    return this.round(this.currentWeather.humidity);
+  }
+
+  get airPressure(): number {
+    return this.round(this.currentWeather.airPressure);
+  }
+
+  get visibility(): number {
+    return this.round(this.currentWeather.visibility);
+  }
 }
 </script>
 

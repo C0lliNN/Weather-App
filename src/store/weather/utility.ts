@@ -7,18 +7,21 @@ export default function getTransformedData(data: any): Data {
   const currentWeather: Weather = {
     locationId: data.woeid,
     locationName: data.title,
-    currentDate: data.created,
+    currentDate: new Date(`${rawWeatherData.applicable_date} 00:00:00`),
     currentTemperature: rawWeatherData.the_temp,
     airPressure: rawWeatherData.air_pressure,
     humidity: rawWeatherData.humidity,
     windSpeed: rawWeatherData.wind_speed,
     windDirectionCompass: rawWeatherData.wind_direction_compass,
     weatherStateName: rawWeatherData.weather_state_name,
+    visibility: rawWeatherData.visibility,
   };
+
+  console.log(data.consolidated_weather);
 
   const forecasts: Forecast[] = data.consolidated_weather.map(
     (consolidatedWeather: any) => ({
-      date: new Date(consolidatedWeather.created),
+      date: new Date(`${consolidatedWeather.applicable_date} 00:00:00`),
       minTemperature: consolidatedWeather.min_temp,
       maxTemperature: consolidatedWeather.max_temp,
       weatherStateName: consolidatedWeather.weather_state_name,

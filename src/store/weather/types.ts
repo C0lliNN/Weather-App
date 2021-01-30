@@ -42,6 +42,7 @@ export interface Weather {
   currentTemperature: number;
   airPressure: number;
   humidity: number;
+  visibility: number;
   windSpeed: number;
   windDirectionCompass: CompassPoint;
   weatherStateName: WeatherState;

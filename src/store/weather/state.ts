@@ -15,6 +15,7 @@ const state: State = {
       airPressure: 0,
       humidity: 0,
       windSpeed: 0,
+      visibility: 0,
       windDirectionCompass: 'N',
       weatherStateName: 'Clear',
     },

@@ -8,7 +8,7 @@ const getters: GetterTree<State, {}> = {
   currentWeather(store: State): Weather {
     return store.data.weather;
   },
-  getForecasts(store: State): Forecast[] {
+  forecasts(store: State): Forecast[] {
     return store.data.forecasts;
   },
   isLoading(store: State): boolean {
