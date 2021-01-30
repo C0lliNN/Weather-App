@@ -11,6 +11,9 @@ const getters: GetterTree<State, {}> = {
   getForecasts(store: State): Forecast[] {
     return store.data.forecasts;
   },
+  isLoading(store: State): boolean {
+    return store.isLoading;
+  },
 };
 
 export default getters;

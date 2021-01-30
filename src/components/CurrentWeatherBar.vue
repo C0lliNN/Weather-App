@@ -1,6 +1,9 @@
 <template>
   <aside>
-    <div class="container">
+    <div class="spinner-container" v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
+    <div class="container" v-else>
       <div class="header">
         <button class="btn search" @click="handleSearch">Search Places</button>
         <button class="btn icon">
@@ -42,17 +45,21 @@ import { Options, mixins } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 import CalculateTemperature from '../mixins/CalculateTemperature';
 import GetWeatherImage from '../mixins/GetWeatherImage';
+import BaseSpinner from './UI/BaseSpinner.vue';
 
 @Options({
   emits: ['on-search'],
   computed: {
-    ...mapGetters(['currentWeather', 'unit']),
+    ...mapGetters(['currentWeather', 'unit', 'isLoading']),
   },
+  components: { BaseSpinner },
 })
 export default class extends mixins(CalculateTemperature, GetWeatherImage) {
   unit!: Unit;
 
   currentWeather!: Weather;
+
+  isLoading!: boolean;
 
   get formattedDate(): string {
     return new Intl.DateTimeFormat('en-US', {
@@ -90,6 +97,13 @@ export default class extends mixins(CalculateTemperature, GetWeatherImage) {
 aside {
   height: 100vh;
   background-color: var(--primary);
+}
+
+.spinner-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {

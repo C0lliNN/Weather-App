@@ -14,6 +14,8 @@ const actions: ActionTree<State, {}> = {
       context.commit('setData', transformedData);
     } catch (error) {
       context.commit('setError', error.message);
+    } finally {
+      context.commit('stopLoading');
     }
   },
 };

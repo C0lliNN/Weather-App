@@ -1,6 +1,9 @@
 <template>
   <section>
-    <div class="container">
+    <div class="spinner-container" v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
+    <div class="container" v-else>
       <div class="temperature-unit">
         <button @click="changeUnit('C')" :class="{ active: unit === 'C' }">
           °C
@@ -87,19 +90,25 @@
 import { Unit } from '@/store/unit/types';
 import { Vue, Options } from 'vue-class-component';
 import { mapActions, mapGetters } from 'vuex';
+import BaseSpinner from './UI/BaseSpinner.vue';
 
 @Options({
   methods: {
     ...mapActions(['changeUnit']),
   },
   computed: {
-    ...mapGetters(['unit']),
+    ...mapGetters(['unit', 'isLoading']),
+  },
+  components: {
+    BaseSpinner,
   },
 })
 export default class App extends Vue {
   changeUnit!: (unit: Unit) => void;
 
   unit!: Unit;
+
+  isLoading!: boolean;
 
   forecasts = [
     {
@@ -141,6 +150,13 @@ section {
   background: #100e1d;
   height: 100%;
   z-index: 10;
+}
+
+.spinner-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
