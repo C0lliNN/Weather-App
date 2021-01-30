@@ -21,6 +21,10 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
 }
 
+.swal2-container {
+  font-family: 'Raleway', sans-serif !important;
+}
+
 * {
   margin: 0;
   padding: 0;
