@@ -45,6 +45,7 @@
                   src="../assets/icons/navigation-24px.svg"
                   alt=""
                   width="18"
+                  :style="windCompassStyle"
                 />
               </button>
               <span>{{ windDirection }}</span>
@@ -172,6 +173,33 @@ export default class App extends mixins(CalculateTemperature, GetWeatherImage) {
 
   get windDirection(): CompassPoint {
     return this.currentWeather.windDirectionCompass;
+  }
+
+  get windCompassStyle(): object {
+    type Map = {
+      [point in CompassPoint]: number;
+    };
+    const map: Map = {
+      N: 0,
+      NNE: 22,
+      NE: 45,
+      ENE: 67,
+      E: 90,
+      ESE: 112,
+      SE: 135,
+      SSE: 158,
+      S: 180,
+      SSW: 202,
+      SW: 225,
+      WSW: 247,
+      W: 270,
+      WNW: 293,
+      NW: 315,
+      NNW: 337,
+    };
+    return {
+      transform: `rotate(${map[this.windDirection]}deg)`,
+    };
   }
 
   get humidity(): number {
