@@ -218,7 +218,7 @@ export default class App extends mixins(CalculateTemperature, GetWeatherImage) {
 
 <style scoped>
 section {
-  background: #100e1d;
+  background: var(--dark);
   height: 100%;
   z-index: 10;
 }
@@ -278,7 +278,7 @@ section {
 }
 
 .temperature-unit button.active {
-  background-color: #e7e7eb;
+  background-color: var(--secondary);
   color: #110e3c;
   cursor: default;
 }
@@ -291,7 +291,7 @@ section {
 }
 
 .weather {
-  background: #1e213a;
+  background: var(--primary);
   padding: 15px;
   width: 120px;
   box-sizing: border-box;
@@ -301,7 +301,7 @@ section {
   flex-direction: column;
   font-weight: 500;
   font-size: 1em;
-  color: #e7e7eb;
+  color: var(--secondary);
   margin-bottom: 20px;
 }
 
@@ -322,12 +322,12 @@ section {
 }
 
 .weather .min {
-  color: #a09fb1;
+  color: var(--gray);
 }
 
 h3 {
   font-size: 18px;
-  color: #e7e7eb;
+  color: var(--secondary);
   margin-bottom: 32px;
   margin-top: 12px;
   font-weight: 700;
@@ -337,11 +337,11 @@ h3 {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 48px;
-  color: #e7e7eb;
+  color: var(--secondary);
 }
 
 .highlights > div {
-  background: #1e213a;
+  background: var(--primary);
   padding: 20px;
   box-sizing: border-box;
 }
@@ -393,14 +393,14 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #a09fb1;
+  color: var(--gray);
 }
 
 .progress .bar {
   height: 8px;
   width: 100%;
   margin-top: 2px;
-  background-color: #e7e7eb;
+  background-color: var(--secondary);
   border-radius: 100px;
   position: relative;
 }
@@ -417,7 +417,7 @@ h3 {
 .progress .unit {
   text-align: right;
   margin-top: 4px;
-  color: #a09fb1;
+  color: var(--gray);
   font-size: 12px;
 }
 

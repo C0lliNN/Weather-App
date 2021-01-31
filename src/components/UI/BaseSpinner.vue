@@ -4,7 +4,7 @@
 
 <style scoped>
 .spinner {
-  color: #e7e7eb;
+  color: var(--secondary);
   font-size: 90px;
   text-indent: -9999em;
   overflow: hidden;

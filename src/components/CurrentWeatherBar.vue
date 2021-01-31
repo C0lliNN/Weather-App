@@ -131,7 +131,7 @@ aside {
   justify-content: center;
   height: 40px;
   background-color: #6e707a;
-  color: #e7e7eb;
+  color: var(--secondary);
   border: none;
   outline: none;
   cursor: pointer;

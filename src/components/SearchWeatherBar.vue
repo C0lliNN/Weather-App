@@ -184,7 +184,7 @@ export default class extends Vue {
   align-items: center;
   box-sizing: border-box;
   height: 44px;
-  border: 1px solid #e7e7eb;
+  border: 1px solid var(--secondary);
   transition: all 0.3s ease-in-out;
 }
 
@@ -207,7 +207,7 @@ export default class extends Vue {
   outline: none;
   padding: 12px 0;
   font-size: 1em;
-  color: #e7e7eb;
+  color: var(--secondary);
   flex-shrink: 1;
 }
 
