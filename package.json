@@ -2,6 +2,7 @@
   "name": "weather-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://c0llinn.github.io/Weather-App",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
