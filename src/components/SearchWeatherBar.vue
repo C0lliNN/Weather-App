@@ -10,7 +10,7 @@
             <img src="../assets/icons/close-white-18dp.svg" alt="Close" />
           </button>
         </div>
-        <div class="search-bar">
+        <form class="search-bar" @submit.prevent="getLocations">
           <div :class="{ focused: isInputFocused }">
             <span>
               <img src="../assets/icons/search-black-18dp.svg" alt="" />
@@ -18,29 +18,22 @@
             <input
               type="text"
               placeholder="Enter a Location"
+              v-model="searchQuery"
               @focus="handleInputFocus"
               @blur="handleInputBlur"
             />
           </div>
-          <button>Search</button>
-        </div>
-        <ul class="locations">
-          <li role="button">
-            <span>London</span>
-            <img
-              src="../assets/icons/keyboard_arrow_right-black-18dp.svg"
-              alt=""
-            />
-          </li>
-          <li role="button">
-            <span>São Paulo</span>
-            <img
-              src="../assets/icons/keyboard_arrow_right-black-18dp.svg"
-              alt=""
-            />
-          </li>
-          <li role="button">
-            <span>Rio de Janeiro</span>
+          <button type="submit">Search</button>
+        </form>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul class="locations" v-else-if="locations.length">
+          <li
+            v-for="location in locations"
+            :key="location.woeid"
+            role="button"
+            @click="getNewData(location.woeid, $event)"
+          >
+            <span>{{ location.name }}</span>
             <img
               src="../assets/icons/keyboard_arrow_right-black-18dp.svg"
               alt=""
@@ -53,16 +46,37 @@
 </template>
 
 <script lang="ts">
+import api from '@/services/api';
+import Swal from 'sweetalert2';
 import { Options, Vue } from 'vue-class-component';
+import { mapActions } from 'vuex';
+import BaseSpinner from './UI/BaseSpinner.vue';
+
+interface Location {
+  woeid: number;
+  name: string;
+}
 
 @Options({
+  components: { BaseSpinner },
   props: ['show'],
   emits: ['on-close'],
+  methods: {
+    ...mapActions(['getData']),
+  },
 })
 export default class extends Vue {
   show!: boolean;
 
+  getData!: (woeid: number) => void;
+
   isInputFocused = false;
+
+  searchQuery = '';
+
+  locations: Location[] = [];
+
+  isLoading = false;
 
   handleClose(e: Event) {
     this.$emit('on-close', e);
@@ -74,6 +88,37 @@ export default class extends Vue {
 
   handleInputBlur() {
     this.isInputFocused = false;
+  }
+
+  async getLocations() {
+    if (this.searchQuery) {
+      this.isLoading = true;
+      try {
+        const { data } = await api.get('/location/search', {
+          params: {
+            query: this.searchQuery,
+          },
+        });
+
+        this.locations = data.slice(0, 5).map((location: any) => ({
+          woeid: location.woeid,
+          name: location.title,
+        }));
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          icon: 'error',
+          text: `Error while searching locations: ${error.message}`,
+        });
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }
+
+  getNewData(woeid: number, event: Event) {
+    this.getData(woeid);
+    this.handleClose(event);
   }
 }
 </script>
