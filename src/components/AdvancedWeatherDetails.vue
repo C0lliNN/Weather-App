@@ -135,7 +135,6 @@ export default class App extends mixins(CalculateTemperature, GetWeatherImage) {
   currentWeather!: Weather;
 
   get transformedForecasts(): TransformedForecasts[] {
-    console.log(this.forecasts);
     return this.forecasts.map((forecast) => ({
       date: this.formatDate(forecast.date),
       minTemperature: this.round(

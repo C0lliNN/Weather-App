@@ -20,13 +20,13 @@ import AdvancedWeatherDetails from '@/components/AdvancedWeatherDetails.vue';
 
 @Options({
   components: { CurrentWeatherBar, SearchWeatherBar, AdvancedWeatherDetails },
-  methods: { ...mapActions(['getData']) },
+  methods: { ...mapActions(['getWeatherFromWoeid']) },
   computed: { ...mapGetters(['getCurrentLocationId']) },
 })
 export default class HomePage extends Vue {
   showSearchBar = false;
 
-  getData!: (locationId: number) => void;
+  getWeatherFromWoeid!: (locationId: number) => void;
 
   getCurrentLocationId!: number;
 
@@ -39,7 +39,7 @@ export default class HomePage extends Vue {
   }
 
   mounted() {
-    this.getData(this.getCurrentLocationId);
+    this.getWeatherFromWoeid(this.getCurrentLocationId);
   }
 }
 </script>

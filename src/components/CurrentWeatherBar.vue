@@ -6,7 +6,7 @@
     <div class="container" v-else>
       <div class="header">
         <button class="btn search" @click="handleSearch">Search Places</button>
-        <button class="btn icon">
+        <button class="btn icon" @click="handleGetCurrentLocation">
           <img
             src="../assets/icons/gps_fixed-24px.svg"
             alt="User Current location"
@@ -42,7 +42,7 @@
 import { Unit } from '@/store/unit/types';
 import { Weather } from '@/store/weather/types';
 import { Options, mixins } from 'vue-class-component';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import CalculateTemperature from '../mixins/CalculateTemperature';
 import GetWeatherImage from '../mixins/GetWeatherImage';
 import BaseSpinner from './UI/BaseSpinner.vue';
@@ -52,6 +52,9 @@ import BaseSpinner from './UI/BaseSpinner.vue';
   computed: {
     ...mapGetters(['currentWeather', 'unit', 'isLoading']),
   },
+  methods: {
+    ...mapActions(['getLocationBasedOnCoordinates']),
+  },
   components: { BaseSpinner },
 })
 export default class extends mixins(CalculateTemperature, GetWeatherImage) {
@@ -60,6 +63,11 @@ export default class extends mixins(CalculateTemperature, GetWeatherImage) {
   currentWeather!: Weather;
 
   isLoading!: boolean;
+
+  getLocationBasedOnCoordinates!: (payload: {
+    latitude: number;
+    longitude: number;
+  }) => void;
 
   get formattedDate(): string {
     return new Intl.DateTimeFormat('en-US', {
@@ -89,6 +97,13 @@ export default class extends mixins(CalculateTemperature, GetWeatherImage) {
 
   handleSearch(e: Event) {
     this.$emit('on-search', e);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleGetCurrentLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.getLocationBasedOnCoordinates(position.coords);
+    });
   }
 }
 </script>

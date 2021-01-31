@@ -63,13 +63,13 @@ interface Location {
   props: ['show'],
   emits: ['on-close'],
   methods: {
-    ...mapActions(['getData']),
+    ...mapActions(['getWeatherFromWoeid']),
   },
 })
 export default class extends Vue {
   show!: boolean;
 
-  getData!: (woeid: number) => void;
+  getWeatherFromWoeid!: (woeid: number) => void;
 
   isInputFocused = false;
 
@@ -118,7 +118,7 @@ export default class extends Vue {
   }
 
   getNewData(woeid: number, event: Event) {
-    this.getData(woeid);
+    this.getWeatherFromWoeid(woeid);
     this.handleClose(event);
   }
 }

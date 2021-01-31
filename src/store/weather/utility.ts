@@ -17,8 +17,6 @@ export default function getTransformedData(data: any): Data {
     visibility: rawWeatherData.visibility,
   };
 
-  console.log(data.consolidated_weather);
-
   const forecasts: Forecast[] = data.consolidated_weather.map(
     (consolidatedWeather: any) => ({
       date: new Date(`${consolidatedWeather.applicable_date} 00:00:00`),
