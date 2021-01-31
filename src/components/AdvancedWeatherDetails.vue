@@ -148,6 +148,9 @@ export default class App extends mixins(CalculateTemperature, GetWeatherImage) {
   }
 
   formatDate(date: Date): string {
+    if (date.getDay() === new Date().getDay() + 1) {
+      return 'Tomorrow';
+    }
     return new Intl.DateTimeFormat('en-US', {
       day: 'numeric',
       month: 'short',
