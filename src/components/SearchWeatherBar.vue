@@ -40,6 +40,7 @@
             />
           </li>
         </ul>
+        <p v-else class="empty-message">No Locations founded</p>
       </div>
     </div>
   </transition>
@@ -265,6 +266,11 @@ export default class extends Vue {
 
 .locations li:hover img {
   display: block;
+}
+
+.empty-message {
+  color: var(--secondary);
+  margin-top: 35px;
 }
 
 @keyframes slide-in {
