@@ -2,7 +2,7 @@
 
 ![Weather App Screenshot](https://i.imgur.com/Zg76uoV.png)
 
-A Weather Application developer in Vue.js that allow users visualize weather information. Challenge by [Dev Challenges](https://devchallenges.io/challenges)
+A Weather Application developed in Vue.js that allow users visualize weather information. Challenge by [Dev Challenges](https://devchallenges.io/challenges)
 
 ## Features
 
