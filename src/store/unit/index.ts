@@ -8,7 +8,7 @@ interface State {
 
 const unitModule: Module<State, {}> = {
   state: {
-    currentUnit: 'C',
+    currentUnit: 'F',
   },
   mutations: {
     changeUnit(store, newUnit: Unit) {

@@ -1,8 +1,5 @@
 <template>
-  <transition
-    enter-active-class="bar-enter-active"
-    leave-active-class="bar-leave-active"
-  >
+  <transition enter-active-class="bar-enter-active" leave-active-class="bar-leave-active">
     <div v-show="show" class="search-container">
       <div class="container">
         <div class="close-bar">
@@ -15,29 +12,17 @@
             <span>
               <img src="../assets/icons/search-black-18dp.svg" alt="" />
             </span>
-            <input
-              type="text"
-              placeholder="Enter a Location"
-              v-model="searchQuery"
-              @focus="handleInputFocus"
-              @blur="handleInputBlur"
-            />
+            <input type="text" placeholder="Enter a Location" v-model="searchQuery" @focus="handleInputFocus"
+              @blur="handleInputBlur" />
           </div>
           <button type="submit">Search</button>
         </form>
         <base-spinner v-if="isLoading"></base-spinner>
-        <ul class="locations" v-else-if="locations.length">
-          <li
-            v-for="location in locations"
-            :key="location.woeid"
-            role="button"
-            @click="getNewData(location.woeid, $event)"
-          >
-            <span>{{ location.name }}</span>
-            <img
-              src="../assets/icons/keyboard_arrow_right-black-18dp.svg"
-              alt=""
-            />
+        <ul class="locations" v-else-if="places.length">
+          <li v-for="place in places" :key="place.placeId" role="button"
+            @click="getNewData(place, $event)">
+            <span>{{ place.name }}</span>
+            <img src="../assets/icons/keyboard_arrow_right-black-18dp.svg" alt="" />
           </li>
         </ul>
         <p v-else class="empty-message">No Locations founded</p>
@@ -49,33 +34,29 @@
 <script lang="ts">
 import api from '@/services/api';
 import Swal from 'sweetalert2';
+import { Place } from '@/store/weather/types';
 import { Options, Vue } from 'vue-class-component';
 import { mapActions } from 'vuex';
 import BaseSpinner from './UI/BaseSpinner.vue';
-
-interface Location {
-  woeid: number;
-  name: string;
-}
 
 @Options({
   components: { BaseSpinner },
   props: ['show'],
   emits: ['on-close'],
   methods: {
-    ...mapActions(['getWeatherFromWoeid']),
+    ...mapActions(['getWeatherByPlace']),
   },
 })
 export default class extends Vue {
   show!: boolean;
 
-  getWeatherFromWoeid!: (woeid: number) => void;
+  getWeatherByPlace!: (place: Place) => void;
 
   isInputFocused = false;
 
   searchQuery = '';
 
-  locations: Location[] = [];
+  places: Place[] = [];
 
   isLoading = false;
 
@@ -95,15 +76,16 @@ export default class extends Vue {
     if (this.searchQuery) {
       this.isLoading = true;
       try {
-        const { data } = await api.get('/location/search', {
+        const { data } = await api.get('find_places', {
           params: {
-            query: this.searchQuery,
+            text: this.searchQuery,
+            language: 'en'
           },
         });
 
-        this.locations = data.slice(0, 5).map((location: any) => ({
-          woeid: location.woeid,
-          name: location.title,
+        this.places = data.slice(0, 5).map((place: any) => ({
+          placeId: place.place_id,
+          name: place.name,
         }));
       } catch (error) {
         Swal.fire({
@@ -117,8 +99,8 @@ export default class extends Vue {
     }
   }
 
-  getNewData(woeid: number, event: Event) {
-    this.getWeatherFromWoeid(woeid);
+  getNewData(place: Place, event: Event) {
+    this.getWeatherByPlace(place);
     this.handleClose(event);
   }
 }
@@ -277,6 +259,7 @@ export default class extends Vue {
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translate(0);
   }
@@ -286,6 +269,7 @@ export default class extends Vue {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translate(-100%);
   }
@@ -296,6 +280,7 @@ export default class extends Vue {
     width: var(--leftbar-side);
     position: fixed;
   }
+
   .close-bar {
     text-align: right;
     padding: 15px 20px;

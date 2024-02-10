@@ -1,9 +1,9 @@
 import { GetterTree } from 'vuex';
-import { Forecast, State, Weather } from './types';
+import { Forecast, Place, State, Weather } from './types';
 
 const getters: GetterTree<State, {}> = {
-  getCurrentLocationId(store: State): number {
-    return store.data.weather.locationId;
+  getCurrentPlace(store: State): Place {
+    return store.data.weather.place;
   },
   currentWeather(store: State): Weather {
     return store.data.weather;

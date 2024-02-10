@@ -7,10 +7,7 @@
       <div class="header">
         <button class="btn search" @click="handleSearch">Search Places</button>
         <button class="btn icon" @click="handleGetCurrentLocation">
-          <img
-            src="../assets/icons/gps_fixed-24px.svg"
-            alt="User Current location"
-          />
+          <img src="../assets/icons/gps_fixed-24px.svg" alt="User Current location" />
         </button>
       </div>
       <div class="weather-symbol">
@@ -31,7 +28,7 @@
         </div>
         <div class="location">
           <img src="../assets/icons/location_on-white-24dp.svg" alt="" />
-          <span>{{ currentWeather.locationName }}</span>
+          <span>{{ currentWeather.place.name }}</span>
         </div>
       </div>
     </div>
@@ -53,7 +50,7 @@ import BaseSpinner from './UI/BaseSpinner.vue';
     ...mapGetters(['currentWeather', 'unit', 'isLoading']),
   },
   methods: {
-    ...mapActions(['getLocationBasedOnCoordinates']),
+    ...mapActions(['getPlaceBasedOnCoordinates']),
   },
   components: { BaseSpinner },
 })
@@ -64,7 +61,7 @@ export default class extends mixins(CalculateTemperature, GetWeatherImage) {
 
   isLoading!: boolean;
 
-  getLocationBasedOnCoordinates!: (payload: {
+  getPlaceBasedOnCoordinates!: (payload: {
     latitude: number;
     longitude: number;
   }) => void;
@@ -102,7 +99,7 @@ export default class extends mixins(CalculateTemperature, GetWeatherImage) {
   // eslint-disable-next-line class-methods-use-this
   handleGetCurrentLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
-      this.getLocationBasedOnCoordinates(position.coords);
+      this.getPlaceBasedOnCoordinates(position.coords);
     });
   }
 }
@@ -263,6 +260,7 @@ aside {
   .header {
     padding: 30px 40px 0px 40px;
   }
+
   .temperature h3 {
     font-size: 120px;
   }

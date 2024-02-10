@@ -10,10 +10,11 @@ import { mapGetters } from 'vuex';
 export default class extends Vue {
   unit!: Unit;
 
-  calculateTemperature(temperatureInCelsius: number): number {
-    if (this.unit === 'C') {
-      return temperatureInCelsius;
+  calculateTemperature(temperatureInFahrenheit: number): number {
+    if (this.unit === 'F') {
+      return temperatureInFahrenheit;
     }
-    return (temperatureInCelsius * 9) / 5 + 32;
+
+    return (temperatureInFahrenheit - 32) * (5 / 9);
   }
 }

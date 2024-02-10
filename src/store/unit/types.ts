@@ -1,1 +1,1 @@
-export type Unit = 'C' | 'T';
+export type Unit = 'C' | 'F';

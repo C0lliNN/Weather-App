@@ -1,12 +1,7 @@
 <template>
   <main>
-    <current-weather-bar
-      @onSearch.stop="handleShowSearchBar"
-    ></current-weather-bar>
-    <search-weather-bar
-      :show="showSearchBar"
-      @onClose.stop="handleCloseSearchBar"
-    ></search-weather-bar>
+    <current-weather-bar @onSearch.stop="handleShowSearchBar"></current-weather-bar>
+    <search-weather-bar :show="showSearchBar" @onClose.stop="handleCloseSearchBar"></search-weather-bar>
     <advanced-weather-details></advanced-weather-details>
   </main>
 </template>
@@ -17,18 +12,19 @@ import { mapActions, mapGetters } from 'vuex';
 import CurrentWeatherBar from '@/components/CurrentWeatherBar.vue';
 import SearchWeatherBar from '@/components/SearchWeatherBar.vue';
 import AdvancedWeatherDetails from '@/components/AdvancedWeatherDetails.vue';
+import { Place } from '@/store/weather/types';
 
 @Options({
   components: { CurrentWeatherBar, SearchWeatherBar, AdvancedWeatherDetails },
-  methods: { ...mapActions(['getWeatherFromWoeid']) },
-  computed: { ...mapGetters(['getCurrentLocationId']) },
+  methods: { ...mapActions(['getWeatherByPlace']) },
+  computed: { ...mapGetters(['getCurrentPlace']) },
 })
 export default class HomePage extends Vue {
   showSearchBar = false;
 
-  getWeatherFromWoeid!: (locationId: number) => void;
+  getWeatherByPlace!: (place: Place) => void;
 
-  getCurrentLocationId!: number;
+  getCurrentPlace!: Place;
 
   handleShowSearchBar() {
     this.showSearchBar = true;
@@ -39,7 +35,7 @@ export default class HomePage extends Vue {
   }
 
   mounted() {
-    this.getWeatherFromWoeid(this.getCurrentLocationId);
+    this.getWeatherByPlace(this.getCurrentPlace);
   }
 }
 </script>

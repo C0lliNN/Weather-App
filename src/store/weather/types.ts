@@ -28,6 +28,11 @@ export type CompassPoint =
   | 'WNW'
   | 'NNW';
 
+export interface Place {
+  placeId: string;
+  name: string;
+}
+
 export interface Forecast {
   minTemperature: number;
   maxTemperature: number;
@@ -36,8 +41,7 @@ export interface Forecast {
 }
 
 export interface Weather {
-  locationId: number;
-  locationName: string;
+  place: Place;
   currentDate: Date;
   currentTemperature: number;
   airPressure: number;
